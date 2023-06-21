@@ -161,6 +161,7 @@ return [
         /*
          * Package Service Providers...
          */
+        App\Providers\AwsCognitoServiceProvider::class,
 
         /*
          * Application Service Providers...
