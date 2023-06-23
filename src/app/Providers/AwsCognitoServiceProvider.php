@@ -7,6 +7,9 @@ namespace App\Providers;
 use App\Aws\CognitoIdentityProvider\AdminCreateUser\AdminCreateUser;
 use App\Aws\CognitoIdentityProvider\AdminCreateUser\AwsAdminCreateUser;
 use App\Aws\CognitoIdentityProvider\AdminCreateUser\MockAdminCreateUser;
+use App\Aws\CognitoIdentityProvider\AdminDeleteUser\AdminDeleteUser;
+use App\Aws\CognitoIdentityProvider\AdminDeleteUser\AwsAdminDeleteUser;
+use App\Aws\CognitoIdentityProvider\AdminDeleteUser\MockAdminDeleteUser;
 use App\Aws\CognitoIdentityProvider\CognitoIdentityProviderClientFactory;
 use Aws\CognitoIdentityProvider\CognitoIdentityProviderClient;
 use Illuminate\Contracts\Support\DeferrableProvider;
@@ -27,8 +30,10 @@ final class AwsCognitoServiceProvider extends ServiceProvider implements Deferra
 
         if (config('services.cognito.enabled')) {
             $this->app->bind(AdminCreateUser::class, AwsAdminCreateUser::class);
+            $this->app->bind(AdminDeleteUser::class, AwsAdminDeleteUser::class);
         } else {
             $this->app->bind(AdminCreateUser::class, MockAdminCreateUser::class);
+            $this->app->bind(AdminDeleteUser::class, MockAdminDeleteUser::class);
         }
     }
 
@@ -40,6 +45,7 @@ final class AwsCognitoServiceProvider extends ServiceProvider implements Deferra
         return [
             CognitoIdentityProviderClient::class,
             AdminCreateUser::class,
+            AdminDeleteUser::class,
         ];
     }
 }
