@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Exceptions;
 
+use Aws\CognitoIdentityProvider\Exception\CognitoIdentityProviderException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
-use Throwable;
 
 final class Handler extends ExceptionHandler
 {
@@ -25,8 +25,6 @@ final class Handler extends ExceptionHandler
      */
     public function register(): void
     {
-        $this->reportable(function (Throwable $e) {
-            //
-        });
+        $this->renderable(fn (CognitoIdentityProviderException $e) => redirect()->back()->withErrors([$e->getAwsErrorMessage()]));
     }
 }
