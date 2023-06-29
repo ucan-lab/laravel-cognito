@@ -26,6 +26,9 @@ use App\Aws\CognitoIdentityProvider\AdminUserGlobalSignOut\AdminUserGlobalSignOu
 use App\Aws\CognitoIdentityProvider\AdminUserGlobalSignOut\AwsAdminUserGlobalSignOut;
 use App\Aws\CognitoIdentityProvider\AdminUserGlobalSignOut\MockAdminUserGlobalSignOut;
 use App\Aws\CognitoIdentityProvider\CognitoIdentityProviderClientFactory;
+use App\Aws\CognitoIdentityProvider\ListUsers\AwsListUsers;
+use App\Aws\CognitoIdentityProvider\ListUsers\ListUsers;
+use App\Aws\CognitoIdentityProvider\ListUsers\MockListUsers;
 use Aws\CognitoIdentityProvider\CognitoIdentityProviderClient;
 use Illuminate\Contracts\Support\DeferrableProvider;
 use Illuminate\Support\ServiceProvider;
@@ -51,6 +54,7 @@ final class AwsCognitoServiceProvider extends ServiceProvider implements Deferra
             $this->app->bind(AdminRespondToAuthChallenge::class, AwsAdminRespondToAuthChallenge::class);
             $this->app->bind(AdminSetUserPassword::class, AwsAdminSetUserPassword::class);
             $this->app->bind(AdminUserGlobalSignOut::class, AwsAdminUserGlobalSignOut::class);
+            $this->app->bind(ListUsers::class, AwsListUsers::class);
         } else {
             $this->app->bind(AdminCreateUser::class, MockAdminCreateUser::class);
             $this->app->bind(AdminDeleteUser::class, MockAdminDeleteUser::class);
@@ -59,6 +63,7 @@ final class AwsCognitoServiceProvider extends ServiceProvider implements Deferra
             $this->app->bind(AdminRespondToAuthChallenge::class, MockAdminRespondToAuthChallenge::class);
             $this->app->bind(AdminSetUserPassword::class, MockAdminSetUserPassword::class);
             $this->app->bind(AdminUserGlobalSignOut::class, MockAdminUserGlobalSignOut::class);
+            $this->app->bind(ListUsers::class, MockListUsers::class);
         }
     }
 
@@ -76,6 +81,7 @@ final class AwsCognitoServiceProvider extends ServiceProvider implements Deferra
             AdminRespondToAuthChallenge::class,
             AdminSetUserPassword::class,
             AdminUserGlobalSignOut::class,
+            ListUsers::class,
         ];
     }
 }
