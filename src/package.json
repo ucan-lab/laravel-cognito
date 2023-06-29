@@ -1,4 +1,5 @@
 {
+    "name": "laravel-cognito",
     "private": true,
     "type": "module",
     "scripts": {
