@@ -13,6 +13,9 @@ use App\Aws\CognitoIdentityProvider\AdminDeleteUser\MockAdminDeleteUser;
 use App\Aws\CognitoIdentityProvider\AdminGetUser\AdminGetUser;
 use App\Aws\CognitoIdentityProvider\AdminGetUser\AwsAdminGetUser;
 use App\Aws\CognitoIdentityProvider\AdminGetUser\MockAdminGetUser;
+use App\Aws\CognitoIdentityProvider\AdminInitiateAuth\AdminInitiateAuth;
+use App\Aws\CognitoIdentityProvider\AdminInitiateAuth\AwsAdminInitiateAuth;
+use App\Aws\CognitoIdentityProvider\AdminInitiateAuth\MockAdminInitiateAuth;
 use App\Aws\CognitoIdentityProvider\CognitoIdentityProviderClientFactory;
 use Aws\CognitoIdentityProvider\CognitoIdentityProviderClient;
 use Illuminate\Contracts\Support\DeferrableProvider;
@@ -35,10 +38,12 @@ final class AwsCognitoServiceProvider extends ServiceProvider implements Deferra
             $this->app->bind(AdminCreateUser::class, AwsAdminCreateUser::class);
             $this->app->bind(AdminDeleteUser::class, AwsAdminDeleteUser::class);
             $this->app->bind(AdminGetUser::class, AwsAdminGetUser::class);
+            $this->app->bind(AdminInitiateAuth::class, AwsAdminInitiateAuth::class);
         } else {
             $this->app->bind(AdminCreateUser::class, MockAdminCreateUser::class);
             $this->app->bind(AdminDeleteUser::class, MockAdminDeleteUser::class);
             $this->app->bind(AdminGetUser::class, MockAdminGetUser::class);
+            $this->app->bind(AdminInitiateAuth::class, MockAdminInitiateAuth::class);
         }
     }
 
@@ -52,6 +57,7 @@ final class AwsCognitoServiceProvider extends ServiceProvider implements Deferra
             AdminCreateUser::class,
             AdminDeleteUser::class,
             AdminGetUser::class,
+            AdminInitiateAuth::class,
         ];
     }
 }
