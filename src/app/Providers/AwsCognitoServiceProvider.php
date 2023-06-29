@@ -19,6 +19,9 @@ use App\Aws\CognitoIdentityProvider\AdminInitiateAuth\MockAdminInitiateAuth;
 use App\Aws\CognitoIdentityProvider\AdminRespondToAuthChallenge\AdminRespondToAuthChallenge;
 use App\Aws\CognitoIdentityProvider\AdminRespondToAuthChallenge\AwsAdminRespondToAuthChallenge;
 use App\Aws\CognitoIdentityProvider\AdminRespondToAuthChallenge\MockAdminRespondToAuthChallenge;
+use App\Aws\CognitoIdentityProvider\AdminSetUserPassword\AdminSetUserPassword;
+use App\Aws\CognitoIdentityProvider\AdminSetUserPassword\AwsAdminSetUserPassword;
+use App\Aws\CognitoIdentityProvider\AdminSetUserPassword\MockAdminSetUserPassword;
 use App\Aws\CognitoIdentityProvider\CognitoIdentityProviderClientFactory;
 use Aws\CognitoIdentityProvider\CognitoIdentityProviderClient;
 use Illuminate\Contracts\Support\DeferrableProvider;
@@ -43,12 +46,14 @@ final class AwsCognitoServiceProvider extends ServiceProvider implements Deferra
             $this->app->bind(AdminGetUser::class, AwsAdminGetUser::class);
             $this->app->bind(AdminInitiateAuth::class, AwsAdminInitiateAuth::class);
             $this->app->bind(AdminRespondToAuthChallenge::class, AwsAdminRespondToAuthChallenge::class);
+            $this->app->bind(AdminSetUserPassword::class, AwsAdminSetUserPassword::class);
         } else {
             $this->app->bind(AdminCreateUser::class, MockAdminCreateUser::class);
             $this->app->bind(AdminDeleteUser::class, MockAdminDeleteUser::class);
             $this->app->bind(AdminGetUser::class, MockAdminGetUser::class);
             $this->app->bind(AdminInitiateAuth::class, MockAdminInitiateAuth::class);
             $this->app->bind(AdminRespondToAuthChallenge::class, MockAdminRespondToAuthChallenge::class);
+            $this->app->bind(AdminSetUserPassword::class, MockAdminSetUserPassword::class);
         }
     }
 
@@ -64,6 +69,7 @@ final class AwsCognitoServiceProvider extends ServiceProvider implements Deferra
             AdminGetUser::class,
             AdminInitiateAuth::class,
             AdminRespondToAuthChallenge::class,
+            AdminSetUserPassword::class,
         ];
     }
 }
