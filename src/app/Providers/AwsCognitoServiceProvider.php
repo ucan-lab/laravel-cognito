@@ -16,6 +16,9 @@ use App\Aws\CognitoIdentityProvider\AdminGetUser\MockAdminGetUser;
 use App\Aws\CognitoIdentityProvider\AdminInitiateAuth\AdminInitiateAuth;
 use App\Aws\CognitoIdentityProvider\AdminInitiateAuth\AwsAdminInitiateAuth;
 use App\Aws\CognitoIdentityProvider\AdminInitiateAuth\MockAdminInitiateAuth;
+use App\Aws\CognitoIdentityProvider\AdminRespondToAuthChallenge\AdminRespondToAuthChallenge;
+use App\Aws\CognitoIdentityProvider\AdminRespondToAuthChallenge\AwsAdminRespondToAuthChallenge;
+use App\Aws\CognitoIdentityProvider\AdminRespondToAuthChallenge\MockAdminRespondToAuthChallenge;
 use App\Aws\CognitoIdentityProvider\CognitoIdentityProviderClientFactory;
 use Aws\CognitoIdentityProvider\CognitoIdentityProviderClient;
 use Illuminate\Contracts\Support\DeferrableProvider;
@@ -39,11 +42,13 @@ final class AwsCognitoServiceProvider extends ServiceProvider implements Deferra
             $this->app->bind(AdminDeleteUser::class, AwsAdminDeleteUser::class);
             $this->app->bind(AdminGetUser::class, AwsAdminGetUser::class);
             $this->app->bind(AdminInitiateAuth::class, AwsAdminInitiateAuth::class);
+            $this->app->bind(AdminRespondToAuthChallenge::class, AwsAdminRespondToAuthChallenge::class);
         } else {
             $this->app->bind(AdminCreateUser::class, MockAdminCreateUser::class);
             $this->app->bind(AdminDeleteUser::class, MockAdminDeleteUser::class);
             $this->app->bind(AdminGetUser::class, MockAdminGetUser::class);
             $this->app->bind(AdminInitiateAuth::class, MockAdminInitiateAuth::class);
+            $this->app->bind(AdminRespondToAuthChallenge::class, MockAdminRespondToAuthChallenge::class);
         }
     }
 
@@ -58,6 +63,7 @@ final class AwsCognitoServiceProvider extends ServiceProvider implements Deferra
             AdminDeleteUser::class,
             AdminGetUser::class,
             AdminInitiateAuth::class,
+            AdminRespondToAuthChallenge::class,
         ];
     }
 }
