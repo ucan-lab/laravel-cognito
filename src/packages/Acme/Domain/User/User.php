@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 namespace Acme\Domain\User;
 
-class User
+final readonly class User
 {
     public function __construct(
-        protected UserId $userId,
-        protected Username $username,
-        protected Email $email,
+        private UserId $userId,
+        private Username $username,
+        private Email $email,
+        private ?Password $password,
     ) {
     }
 
@@ -31,5 +32,10 @@ class User
     public function email(): string
     {
         return $this->email->email;
+    }
+
+    public function password(): ?string
+    {
+        return $this->password?->password;
     }
 }

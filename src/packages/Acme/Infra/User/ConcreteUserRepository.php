@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Acme\Infra\User;
 
-use Acme\Domain\User\AuthUser;
 use Acme\Domain\User\User;
 use Acme\Domain\User\UserFactory;
 use Acme\Domain\User\UserInconsistencyException;
@@ -53,18 +52,18 @@ final readonly class ConcreteUserRepository implements UserRepository
         return $this->userFactory->createForRepository($eloquentUser->uuid, $eloquentUser->username, $result->email());
     }
 
-    public function saveForAuthUser(AuthUser $authUser): void
+    public function saveForUser(User $user): void
     {
         EloquentUser::create([
-            'uuid' => $authUser->userId(),
-            'username' => $authUser->username(),
+            'uuid' => $user->userId(),
+            'username' => $user->username(),
         ]);
 
-        $payload = AdminCreateUserPayload::create($authUser->username(), $authUser->email());
+        $payload = AdminCreateUserPayload::create($user->username(), $user->email());
         $this->adminCreateUser->execute($payload);
 
         // ランダムなパスワードでユーザーが作成されるため、パスワードを指定している
-        $payload = AdminSetUserPasswordPayload::createForPermanent($authUser->username(), $authUser->password());
+        $payload = AdminSetUserPasswordPayload::createForPermanent($user->username(), $user->password());
         $this->adminSetUserPassword->execute($payload);
     }
 }

@@ -8,9 +8,9 @@ use Acme\Lang\Uuid;
 
 final class UserFactory
 {
-    public function createForAuthUser(string $username, string $email, string $password): AuthUser
+    public function createForUser(string $username, string $email, string $password): User
     {
-        return new AuthUser(
+        return new User(
             new UserId(Uuid::generate()),
             new Username($username),
             new Email($email),
@@ -24,6 +24,7 @@ final class UserFactory
             new UserId($userId),
             new Username($username),
             new Email($email),
+            null,
         );
     }
 }

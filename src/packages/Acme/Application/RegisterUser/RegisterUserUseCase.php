@@ -24,18 +24,18 @@ final readonly class RegisterUserUseCase
      */
     public function register(RegisterUserUseCaseInput $input): RegisterUserUseCaseOutput
     {
-        $authUser = $this->userFactory->createForAuthUser($input->username, $input->email, $input->password);
+        $user = $this->userFactory->createForUser($input->username, $input->email, $input->password);
 
-        DB::transaction(function () use ($authUser) {
-            if ($this->userService->exists($authUser)) {
-                throw new CannotRegisterUserException($authUser->username() . ' ユーザー名は既に存在しています。');
+        DB::transaction(function () use ($user) {
+            if ($this->userService->exists($user)) {
+                throw new CannotRegisterUserException($user->username() . ' ユーザー名は既に存在しています。');
             }
 
-            $this->userRepository->saveForAuthUser($authUser);
+            $this->userRepository->saveForUser($user);
         });
 
         return new RegisterUserUseCaseOutput(
-            $authUser->userId(),
+            $user->userId(),
         );
     }
 }
