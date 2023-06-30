@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Http\Controllers\LoginController;
 use App\Http\Controllers\RegisterController;
 use Illuminate\Support\Facades\Route;
 
@@ -20,6 +21,8 @@ Route::view('/', 'welcome')->name('welcome');
 
 Route::view('/register', 'register')->name('registerForm');
 Route::post('/register', RegisterController::class)->name('register');
+Route::view('/login', 'login')->name('loginForm');
+Route::post('/login', LoginController::class)->name('login');
 
 
 Route::group(['middleware' => 'auth'], static function () {
