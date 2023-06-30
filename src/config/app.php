@@ -161,6 +161,7 @@ return [
         /*
          * Package Service Providers...
          */
+        App\Providers\AcmeServiceProvider::class,
         App\Providers\AwsCognitoServiceProvider::class,
 
         /*
