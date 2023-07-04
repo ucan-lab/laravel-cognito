@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Acme\Application\RegisterUser;
+namespace Acme\Application\UseCase\RegisterUser;
 
 use RuntimeException;
 

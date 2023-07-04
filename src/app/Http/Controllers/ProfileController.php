@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use Acme\Application\ShowUserProfile\ShowUserProfileUseCase;
-use Acme\Application\ShowUserProfile\ShowUserProfileUseCaseInput;
+use Acme\Application\UseCase\ShowUserProfile\ShowUserProfileUseCase;
+use Acme\Application\UseCase\ShowUserProfile\ShowUserProfileUseCaseInput;
 use App\Models\User;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Auth;

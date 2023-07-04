@@ -2,14 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Acme\Application\RegisterUser;
+namespace Acme\Application\UseCase\ShowUserProfile;
 
-final readonly class RegisterUserUseCaseInput
+final readonly class ShowUserProfileUseCaseOutput
 {
     public function __construct(
         public string $username,
         public string $email,
-        public string $password,
     ) {
     }
 }

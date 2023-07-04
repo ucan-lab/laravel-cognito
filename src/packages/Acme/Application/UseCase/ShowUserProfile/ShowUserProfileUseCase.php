@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Acme\Application\ShowUserProfile;
+namespace Acme\Application\UseCase\ShowUserProfile;
 
 use Acme\Domain\User\Username;
 use Acme\Domain\User\UserRepository;
 
-final class ShowUserProfileUseCase
+final readonly class ShowUserProfileUseCase
 {
     public function __construct(private UserRepository $userRepository)
     {

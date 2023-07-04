@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use Acme\Application\RegisterUser\CannotRegisterUserException;
-use Acme\Application\RegisterUser\RegisterUserUseCase;
-use Acme\Application\RegisterUser\RegisterUserUseCaseInput;
+use Acme\Application\UseCase\RegisterUser\CannotRegisterUserException;
+use Acme\Application\UseCase\RegisterUser\RegisterUserUseCase;
+use Acme\Application\UseCase\RegisterUser\RegisterUserUseCaseInput;
 use App\Http\Requests\RegisterRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;

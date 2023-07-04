@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Acme\Application\ShowUserProfile;
+namespace Acme\Application\UseCase\ShowUserProfile;
 
 final readonly class ShowUserProfileUseCaseInput
 {
