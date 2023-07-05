@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use Acme\Application\Port\Aws\CognitoIdentityProvider\AdminInitiateAuth\AdminInitiateAuth;
+use Acme\Domain\Aws\CognitoIdentityProvider\AdminInitiateAuth\AdminInitiateAuthPayload;
 use Acme\Domain\User\Username;
 use Acme\Domain\User\UserRepository;
-use App\Aws\CognitoIdentityProvider\AdminInitiateAuth\AdminInitiateAuth;
-use App\Aws\CognitoIdentityProvider\AdminInitiateAuth\AdminInitiateAuthPayload;
 use App\Http\Requests\LoginRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;

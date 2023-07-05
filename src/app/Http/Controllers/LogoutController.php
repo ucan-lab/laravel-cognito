@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use App\Aws\CognitoIdentityProvider\AdminUserGlobalSignOut\AdminUserGlobalSignOut;
-use App\Aws\CognitoIdentityProvider\AdminUserGlobalSignOut\AdminUserGlobalSignOutPayload;
+use Acme\Application\Port\Aws\CognitoIdentityProvider\AdminUserGlobalSignOut\AdminUserGlobalSignOut;
+use Acme\Domain\Aws\CognitoIdentityProvider\AdminUserGlobalSignOut\AdminUserGlobalSignOutPayload;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;

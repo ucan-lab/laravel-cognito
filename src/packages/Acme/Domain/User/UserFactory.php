@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Acme\Domain\User;
 
-use Acme\Lang\Uuid;
+use Acme\Infra\Util\Uuid;
 
 final class UserFactory
 {

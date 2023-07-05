@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Console\Commands;
 
-use App\Aws\CognitoIdentityProvider\AdminDeleteUser\AdminDeleteUser;
-use App\Aws\CognitoIdentityProvider\AdminDeleteUser\AdminDeleteUserPayload;
-use App\Aws\CognitoIdentityProvider\ListUsers\ListUsers;
-use App\Aws\CognitoIdentityProvider\ListUsers\ListUsersPayload;
+use Acme\Application\Port\Aws\CognitoIdentityProvider\AdminDeleteUser\AdminDeleteUser;
+use Acme\Application\Port\Aws\CognitoIdentityProvider\ListUsers\ListUsers;
+use Acme\Domain\Aws\CognitoIdentityProvider\AdminDeleteUser\AdminDeleteUserPayload;
+use Acme\Domain\Aws\CognitoIdentityProvider\ListUsers\ListUsersPayload;
 use Illuminate\Console\Command;
 use Illuminate\Console\ConfirmableTrait;
 use Illuminate\Support\Arr;

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Providers;
 
 use Acme\Domain\User\UserRepository;
-use Acme\Infra\User\ConcreteUserRepository;
+use Acme\Infra\Repository\User\ConcreteUserRepository;
 use Illuminate\Contracts\Support\DeferrableProvider;
 use Illuminate\Support\ServiceProvider;
 

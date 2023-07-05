@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Console\Commands;
 
-use App\Aws\CognitoIdentityProvider\ListUsers\ListUsers;
-use App\Aws\CognitoIdentityProvider\ListUsers\ListUsersPayload;
+use Acme\Application\Port\Aws\CognitoIdentityProvider\ListUsers\ListUsers;
+use Acme\Domain\Aws\CognitoIdentityProvider\ListUsers\ListUsersPayload;
 use Illuminate\Console\Command;
 use Illuminate\Support\Arr;
 
