@@ -9,7 +9,7 @@ final readonly class User
     public function __construct(
         private UserId $userId,
         private Username $username,
-        private Email $email,
+        private ?Email $email,
         private ?Password $password,
     ) {
     }
@@ -17,6 +17,11 @@ final readonly class User
     public function userId(): string
     {
         return $this->userId->userId;
+    }
+
+    public function userIdObject(): UserId
+    {
+        return $this->userId;
     }
 
     public function username(): string
@@ -29,9 +34,9 @@ final readonly class User
         return $this->username;
     }
 
-    public function email(): string
+    public function email(): ?string
     {
-        return $this->email->email;
+        return $this->email?->email;
     }
 
     public function password(): ?string

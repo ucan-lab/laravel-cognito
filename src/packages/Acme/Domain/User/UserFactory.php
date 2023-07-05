@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Acme\Domain\User;
 
+use Acme\Domain\Aws\CognitoIdentityProvider\AdminGetUser\AdminGetUserResult;
 use Acme\Infra\Util\Uuid;
 
 final class UserFactory
@@ -18,12 +19,22 @@ final class UserFactory
         );
     }
 
-    public function createForRepository(string $userId, string $username, string $email): User
+    public function createForRepository(string $userId, string $username): User
     {
         return new User(
             new UserId($userId),
             new Username($username),
-            new Email($email),
+            null,
+            null,
+        );
+    }
+
+    public function createForAdminGetUser(User $user, AdminGetUserResult $result): User
+    {
+        return new User(
+            $user->userIdObject(),
+            $user->usernameObject(),
+            new Email($result->email()),
             null,
         );
     }

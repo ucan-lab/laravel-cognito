@@ -11,5 +11,5 @@ interface UserRepository
      */
     public function findByUsername(Username $username): User;
 
-    public function saveForUser(User $user): void;
+    public function save(User $user): void;
 }

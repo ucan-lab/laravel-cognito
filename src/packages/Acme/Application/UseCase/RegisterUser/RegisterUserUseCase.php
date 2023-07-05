@@ -4,6 +4,10 @@ declare(strict_types=1);
 
 namespace Acme\Application\UseCase\RegisterUser;
 
+use Acme\Application\Port\Aws\CognitoIdentityProvider\AdminCreateUser\AdminCreateUser;
+use Acme\Application\Port\Aws\CognitoIdentityProvider\AdminSetUserPassword\AdminSetUserPassword;
+use Acme\Domain\Aws\CognitoIdentityProvider\AdminCreateUser\AdminCreateUserPayload;
+use Acme\Domain\Aws\CognitoIdentityProvider\AdminSetUserPassword\AdminSetUserPasswordPayload;
 use Acme\Domain\User\UserFactory;
 use Acme\Domain\User\UserRepository;
 use Acme\Domain\User\UserService;
@@ -16,6 +20,8 @@ final readonly class RegisterUserUseCase
         private UserFactory $userFactory,
         private UserService $userService,
         private UserRepository $userRepository,
+        private AdminCreateUser $adminCreateUser,
+        private AdminSetUserPassword $adminSetUserPassword,
     ) {
     }
 
@@ -31,7 +37,14 @@ final readonly class RegisterUserUseCase
                 throw new CannotRegisterUserException($user->username() . ' ユーザー名は既に存在しています。');
             }
 
-            $this->userRepository->saveForUser($user);
+            $this->userRepository->save($user);
+
+            $payload = AdminCreateUserPayload::create($user->username(), $user->email());
+            $this->adminCreateUser->execute($payload);
+
+            // ランダムなパスワードでユーザーが作成されるため、パスワードを指定している
+            $payload = AdminSetUserPasswordPayload::createForPermanent($user->username(), $user->password());
+            $this->adminSetUserPassword->execute($payload);
         });
 
         return new RegisterUserUseCaseOutput(
