@@ -4,30 +4,9 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
-use Acme\Application\Port\Aws\CognitoIdentityProvider\AdminCreateUser\AdminCreateUser;
-use Acme\Application\Port\Aws\CognitoIdentityProvider\AdminDeleteUser\AdminDeleteUser;
-use Acme\Application\Port\Aws\CognitoIdentityProvider\AdminGetUser\AdminGetUser;
-use Acme\Application\Port\Aws\CognitoIdentityProvider\AdminInitiateAuth\AdminInitiateAuth;
-use Acme\Application\Port\Aws\CognitoIdentityProvider\AdminRespondToAuthChallenge\AdminRespondToAuthChallenge;
-use Acme\Application\Port\Aws\CognitoIdentityProvider\AdminSetUserPassword\AdminSetUserPassword;
-use Acme\Application\Port\Aws\CognitoIdentityProvider\AdminUserGlobalSignOut\AdminUserGlobalSignOut;
-use Acme\Application\Port\Aws\CognitoIdentityProvider\ListUsers\ListUsers;
-use Acme\Infra\Adapter\Aws\AdminCreateUser\AwsAdminCreateUser;
-use Acme\Infra\Adapter\Aws\AdminCreateUser\MockAdminCreateUser;
-use Acme\Infra\Adapter\Aws\AdminDeleteUser\AwsAdminDeleteUser;
-use Acme\Infra\Adapter\Aws\AdminDeleteUser\MockAdminDeleteUser;
-use Acme\Infra\Adapter\Aws\AdminGetUser\AwsAdminGetUser;
-use Acme\Infra\Adapter\Aws\AdminGetUser\MockAdminGetUser;
-use Acme\Infra\Adapter\Aws\AdminInitiateAuth\AwsAdminInitiateAuth;
-use Acme\Infra\Adapter\Aws\AdminInitiateAuth\MockAdminInitiateAuth;
-use Acme\Infra\Adapter\Aws\AdminRespondToAuthChallenge\AwsAdminRespondToAuthChallenge;
-use Acme\Infra\Adapter\Aws\AdminRespondToAuthChallenge\MockAdminRespondToAuthChallenge;
-use Acme\Infra\Adapter\Aws\AdminSetUserPassword\AwsAdminSetUserPassword;
-use Acme\Infra\Adapter\Aws\AdminSetUserPassword\MockAdminSetUserPassword;
-use Acme\Infra\Adapter\Aws\AdminUserGlobalSignOut\AwsAdminUserGlobalSignOut;
-use Acme\Infra\Adapter\Aws\AdminUserGlobalSignOut\MockAdminUserGlobalSignOut;
-use Acme\Infra\Adapter\Aws\ListUsers\AwsListUsers;
-use Acme\Infra\Adapter\Aws\ListUsers\MockListUsers;
+use Acme\Application\Port\Aws\CognitoClient;
+use Acme\Infra\Adapter\Aws\AwsCognitoClient;
+use Acme\Infra\Adapter\Aws\MockCognitoClient;
 use Aws\CognitoIdentityProvider\CognitoIdentityProviderClient;
 use Illuminate\Contracts\Support\DeferrableProvider;
 use Illuminate\Support\ServiceProvider;
@@ -46,23 +25,9 @@ final class AwsCognitoServiceProvider extends ServiceProvider implements Deferra
         }
 
         if (config('services.cognito.enabled')) {
-            $this->app->bind(AdminCreateUser::class, AwsAdminCreateUser::class);
-            $this->app->bind(AdminDeleteUser::class, AwsAdminDeleteUser::class);
-            $this->app->bind(AdminGetUser::class, AwsAdminGetUser::class);
-            $this->app->bind(AdminInitiateAuth::class, AwsAdminInitiateAuth::class);
-            $this->app->bind(AdminRespondToAuthChallenge::class, AwsAdminRespondToAuthChallenge::class);
-            $this->app->bind(AdminSetUserPassword::class, AwsAdminSetUserPassword::class);
-            $this->app->bind(AdminUserGlobalSignOut::class, AwsAdminUserGlobalSignOut::class);
-            $this->app->bind(ListUsers::class, AwsListUsers::class);
+            $this->app->singleton(CognitoClient::class, AwsCognitoClient::class);
         } else {
-            $this->app->bind(AdminCreateUser::class, MockAdminCreateUser::class);
-            $this->app->bind(AdminDeleteUser::class, MockAdminDeleteUser::class);
-            $this->app->bind(AdminGetUser::class, MockAdminGetUser::class);
-            $this->app->bind(AdminInitiateAuth::class, MockAdminInitiateAuth::class);
-            $this->app->bind(AdminRespondToAuthChallenge::class, MockAdminRespondToAuthChallenge::class);
-            $this->app->bind(AdminSetUserPassword::class, MockAdminSetUserPassword::class);
-            $this->app->bind(AdminUserGlobalSignOut::class, MockAdminUserGlobalSignOut::class);
-            $this->app->bind(ListUsers::class, MockListUsers::class);
+            $this->app->singleton(CognitoClient::class, MockCognitoClient::class);
         }
     }
 
@@ -73,14 +38,7 @@ final class AwsCognitoServiceProvider extends ServiceProvider implements Deferra
     {
         return [
             CognitoIdentityProviderClient::class,
-            AdminCreateUser::class,
-            AdminDeleteUser::class,
-            AdminGetUser::class,
-            AdminInitiateAuth::class,
-            AdminRespondToAuthChallenge::class,
-            AdminSetUserPassword::class,
-            AdminUserGlobalSignOut::class,
-            ListUsers::class,
+            CognitoClient::class,
         ];
     }
 

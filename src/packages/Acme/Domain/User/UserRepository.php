@@ -9,7 +9,7 @@ interface UserRepository
     /**
      * @throws UserNotFoundException
      */
-    public function findByUsername(Username $username): User;
+    public function findByUsername(string $username): User;
 
     public function save(User $user): void;
 }

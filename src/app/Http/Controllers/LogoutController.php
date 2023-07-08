@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use Acme\Application\Port\Aws\CognitoIdentityProvider\AdminUserGlobalSignOut\AdminUserGlobalSignOut;
-use Acme\Domain\Aws\CognitoIdentityProvider\AdminUserGlobalSignOut\AdminUserGlobalSignOutPayload;
+use Acme\Application\Port\Aws\AdminUserGlobalSignOutPayload;
+use Acme\Application\Port\Aws\CognitoClient;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Session;
 
 final readonly class LogoutController
 {
-    public function __construct(private AdminUserGlobalSignOut $adminUserGlobalSignOut)
+    public function __construct(private CognitoClient $cognitoClient)
     {
     }
 
@@ -24,7 +24,7 @@ final readonly class LogoutController
             $user = Auth::user();
 
             $payload = AdminUserGlobalSignOutPayload::create($user->username);
-            $this->adminUserGlobalSignOut->execute($payload);
+            $this->cognitoClient->adminUserGlobalSignOut($payload);
 
             Auth::logout();
             Session::invalidate();

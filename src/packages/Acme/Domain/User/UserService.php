@@ -13,7 +13,7 @@ final readonly class UserService
     public function exists(User $user): bool
     {
         try {
-            $this->userRepository->findByUsername($user->usernameObject());
+            $this->userRepository->findByUsername($user->username());
         } catch (UserNotFoundException $exception) {
             if ($exception instanceof UserInconsistencyException) {
                 throw $exception;

@@ -4,10 +4,9 @@ declare(strict_types=1);
 
 namespace App\Console\Commands;
 
-use Acme\Application\Port\Aws\CognitoIdentityProvider\AdminDeleteUser\AdminDeleteUser;
-use Acme\Application\Port\Aws\CognitoIdentityProvider\ListUsers\ListUsers;
-use Acme\Domain\Aws\CognitoIdentityProvider\AdminDeleteUser\AdminDeleteUserPayload;
-use Acme\Domain\Aws\CognitoIdentityProvider\ListUsers\ListUsersPayload;
+use Acme\Application\Port\Aws\AdminDeleteUserPayload;
+use Acme\Application\Port\Aws\CognitoClient;
+use Acme\Application\Port\Aws\ListUsersPayload;
 use Illuminate\Console\Command;
 use Illuminate\Console\ConfirmableTrait;
 use Illuminate\Support\Arr;
@@ -32,24 +31,24 @@ final class DeleteAllCognitoUserCommand extends Command
      */
     protected $description = 'Delete All Cognito User';
 
-    public function handle(ListUsers $listUsers, AdminDeleteUser $adminDeleteUser): int
+    public function handle(CognitoClient $cognitoClient): int
     {
         if (! $this->confirmToProceed()) {
             return self::FAILURE;
         }
 
-        $usernameList = $this->executeListUsers($listUsers);
+        $usernameList = $this->executeListUsers($cognitoClient);
 
-        $this->withProgressBar($usernameList, fn (string $username) => $this->executeAdminDeleteUser($adminDeleteUser, $username));
+        $this->withProgressBar($usernameList, fn (string $username) => $this->executeAdminDeleteUser($cognitoClient, $username));
         $this->newLine();
 
         return self::SUCCESS;
     }
 
-    private function executeListUsers(ListUsers $listUsers): array
+    private function executeListUsers(CognitoClient $cognitoClient): array
     {
         $payload = ListUsersPayload::create();
-        $result = $listUsers->execute($payload);
+        $result = $cognitoClient->listUsers($payload);
 
         if ($result->hasNext() === false) {
             return $result->usernameList;
@@ -60,16 +59,16 @@ final class DeleteAllCognitoUserCommand extends Command
 
         do {
             $payload = ListUsersPayload::create($result->paginationToken);
-            $result = $listUsers->execute($payload);
+            $result = $cognitoClient->listUsers($payload);
             $usernameList[] = $result->usernameList;
         } while ($result->hasNext());
 
         return Arr::flatten($usernameList);
     }
 
-    private function executeAdminDeleteUser(AdminDeleteUser $adminDeleteUser, string $username): void
+    private function executeAdminDeleteUser(CognitoClient $cognitoClient, string $username): void
     {
         $payload = AdminDeleteUserPayload::create($username);
-        $adminDeleteUser->execute($payload);
+        $cognitoClient->adminDeleteUser($payload);
     }
 }

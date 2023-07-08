@@ -4,9 +4,8 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use Acme\Application\Port\Aws\CognitoIdentityProvider\AdminInitiateAuth\AdminInitiateAuth;
-use Acme\Domain\Aws\CognitoIdentityProvider\AdminInitiateAuth\AdminInitiateAuthPayload;
-use Acme\Domain\User\Username;
+use Acme\Application\Port\Aws\AdminInitiateAuthPayload;
+use Acme\Application\Port\Aws\CognitoClient;
 use Acme\Domain\User\UserRepository;
 use App\Http\Requests\LoginRequest;
 use Illuminate\Http\RedirectResponse;
@@ -17,16 +16,16 @@ final readonly class LoginController
 {
     public function __construct(
         private UserRepository $userRepository,
-        private AdminInitiateAuth $adminInitiateAuth,
+        private CognitoClient $cognitoClient,
     ) {
     }
 
-    public function __invoke(LoginRequest $request, AdminInitiateAuth $adminInitiateAuth): RedirectResponse
+    public function __invoke(LoginRequest $request): RedirectResponse
     {
-        $user = $this->userRepository->findByUsername(new Username($request->username()));
+        $user = $this->userRepository->findByUsername($request->username());
 
         $payload = AdminInitiateAuthPayload::createForAdminUserPasswordAuthFlow($user->username(), $request->password());
-        $this->adminInitiateAuth->execute($payload);
+        $this->cognitoClient->adminInitiateAuth($payload);
 
         Auth::loginUsingId($user->userId());
         Session::regenerate();
